@@ -2,7 +2,9 @@
   "name": "pusher-diagnostics",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.8"
+    "express": "2.5.8",
+    "node-pusher": "0.0.1",
+    "config": "0.4.11"
   },
   "engines": {
       "node": "0.6.13",

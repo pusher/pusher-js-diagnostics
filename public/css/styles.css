@@ -1,0 +1,13 @@
+#result-json {
+  width: 100%;
+  height: 100px;
+}
+
+body.complete .test-state {
+  color: green;
+  font-weight: bold;
+}
+
+#results p:first-child {
+  font-weight: bold;
+}
