@@ -306,7 +306,7 @@ function defineTests() {
     channel.bind('pusher:subscription_succeeded', function() {
       
       $.ajax({
-          url: '/trigger',
+          url: '/trigger/',
           data: {
             channel: randomChannel
           }
