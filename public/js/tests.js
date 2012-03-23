@@ -1,16 +1,26 @@
-$(document).ready(defineTests);
+function TestsInfo() {
+  this.browserInfo = {};
 
-function guidGenerator() {
-    var S4 = function() {
-       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
+  this.testsRan = 0;
+  this._testResults = {};
+  this._lastState = 'initialising';
+  this._logMessages = [];
+  
+  var self = this;
+  Pusher.log = function() {
+    self._log.apply(self, arguments);
+  };
+};
 
-var testsRan = 0;
-var lastState = 'initialising';
-function updateTestState(state) {
-  var text = 'Initialising';
+TestsInfo.prototype.testDone = function addTestResult(result) {
+  ++this.testsRan;
+  this._testResults[result.name] = result;
+  this._testResults[result.name].log = this._logMessages.concat([]);
+  this._logMessages = [];  
+};
+
+TestsInfo.prototype.updateState = function updateTestState(state) {
+  var text = 'Initialising...';
   switch(state) {
     case 'running':
       text = 'Running...';
@@ -20,35 +30,59 @@ function updateTestState(state) {
       break;
   }
   
-  $(document.body).removeClass(lastState);
+  $(document.body).removeClass(this._lastState);
   $(document.body).addClass(state);
   $('.test-state').text(text);
   
-  lastState = state;
+  this._lastState = state;
+};
+
+TestsInfo.prototype.getResults = function getResults(summary) {
+  var results = {
+    summary: summary,
+    results: this._testResults,
+    browser: this.browserInfo
+  };
+  return results;
+};
+
+/** @private */
+TestsInfo.prototype._log = function _log(msg) {
+  if (console && console.log) {
+    console.log(msg);
+  }
+  
+  this._logMessages.push(msg);
+};
+
+//////////////////
+
+$(document).ready(defineTests);
+
+var testsInfo = new TestsInfo();
+
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 function defineTests() {
-  updateTestState('initialising');
+  testsInfo.updateState('initialising');
   
   var apiKey = '3c79040b291f29899811';
   var defaultWS = Pusher.ws_port;
   var defaultWSS = Pusher.wss_port;
   
-  var browserInfo = {}
-  var testResults = {};
-  
   QUnit.begin(function() {
-    updateTestState('running');
+    testsInfo.updateState('running');
   });
   
   QUnit.done(function(result) {
-    updateTestState('complete');
+    testsInfo.updateState('complete');
     
-    var fullResults = {
-      summary: result,
-      results: testResults,
-      browser: browserInfo
-    };
+    var fullResults = testsInfo.getResults(result);
     
     console.log(fullResults);
     
@@ -71,19 +105,13 @@ function defineTests() {
 
   var timeout = null;
   QUnit.testStart(function() {
-      Pusher.wss_port = defaultWSS;
-      Pusher.ws_port = defaultWS;
-      
-      Pusher.log = function(msg) {
-          if (console && console.log) {
-              console.log(msg);
-          }
-      };
+    Pusher.wss_port = defaultWSS;
+    Pusher.ws_port = defaultWS;
   });
 
   QUnit.testDone(function(result) {
-    ++testsRan;
-    testResults[result.name] = result;
+    
+    testsInfo.testDone(result);
     
     if( timeout !== null ) {
       clearTimeout(timeout);
@@ -109,37 +137,37 @@ function defineTests() {
   };
   
   test('Browser Vendor', function(){
-    var browser = BrowserDetect.browser;
-    ok(browser !== undefined);
-    $("#browser-vendor").text(browser);
+    testsInfo.browserInfo.browser = BrowserDetect.browser;
+    ok(testsInfo.browserInfo.browser !== undefined);
+    $("#browser-vendor").text(testsInfo.browserInfo.browser);
   });
   
   test('Browser Version', function(){
-    browserInfo.version = BrowserDetect.version;
-    ok(browserInfo.version !== undefined);        
-    $("#browser-version").text(browserInfo.version);
+    testsInfo.browserInfo.version = BrowserDetect.version;
+    ok(testsInfo.browserInfo.version !== undefined);        
+    $("#browser-version").text(testsInfo.browserInfo.version);
   });
   
   test('Operating System', function(){
-    browserInfo.os = BrowserDetect.OS;
-    ok(browserInfo.os !== undefined);       
-    $("#browser-os").text(browserInfo.os);
+    testsInfo.browserInfo.os = BrowserDetect.OS;
+    ok(testsInfo.browserInfo.os !== undefined);       
+    $("#browser-os").text(testsInfo.browserInfo.os);
   });
   
   test('Flash installed?', function(){    
-    browserInfo.flashVersion = undefined;
+    testsInfo.browserInfo.flashVersion = undefined;
     if(swfobject.hasFlashPlayerVersion("10.0.0")) {
-        browserInfo.flashVersion = swfobject.getFlashPlayerVersion();
+        testsInfo.browserInfo.flashVersion = swfobject.getFlashPlayerVersion();
     }
     
     var flashText = "Flash not installed or minimum version of Flash (10.0.0) not found";
-    if(browserInfo.flashVersion !== undefined) {
-        flashText = browserInfo.flashVersion.major + "." +
-                    browserInfo.flashVersion.minor + "." + 
-                    browserInfo.flashVersion.release;
+    if(testsInfo.browserInfo.flashVersion !== undefined) {
+        flashText = testsInfo.browserInfo.flashVersion.major + "." +
+                    testsInfo.browserInfo.flashVersion.minor + "." + 
+                    testsInfo.browserInfo.flashVersion.release;
     }
     
-    ok(browserInfo.flashVersion !== undefined);
+    ok(testsInfo.browserInfo.flashVersion !== undefined);
     
     $("#flash-info").text(flashText);
   });
