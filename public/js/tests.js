@@ -86,7 +86,7 @@ function defineTests() {
     
     console.log(fullResults);
     
-    $('#result-json').val( JSON.stringify(fullResults) );
+    $('#result-json').val( JSON.stringify(fullResults, undefined, 2) );
     
     if( fullResults.summary.failed === 0 ) {
       $("#results").addClass('alert alert-success');

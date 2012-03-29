@@ -37,7 +37,7 @@ app.get('/trigger/:channel', function(request, response) {
 
   pusher.trigger(channel, 'test_event', {"message": "hello world"});
   
-  response.end();
+  response.send({});
 });
 
 app.post('/pusher/auth', function(request, response) {
@@ -73,8 +73,6 @@ app.post('/pusher/auth', function(request, response) {
   var auth = pusher.auth(socketId, channelName, channelData);
   console.log(auth);
   response.send(auth);
-  
-  response.end();
 });
 
 app.post('/results', function(request, response) {
