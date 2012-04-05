@@ -133,7 +133,7 @@ function defineTests() {
     timeout = setTimeout(function() {
         equal(pusher.connection.state, state);
         start();
-    }, 20000);
+    }, 10 * 1000);
   };
   
   test('Browser Vendor', function(){
@@ -293,6 +293,8 @@ function defineTests() {
     ok(transportType !== undefined);
     
     $("#transport-type").text(transportText);
+    
+    testTimeout('connected');    
   });
       
   asyncTest('Can subscribe to a public channel?', 1, function() {
@@ -303,6 +305,8 @@ function defineTests() {
       
       start();
     });
+    
+    testTimeout('connected');
   });
   
   asyncTest('Can subscribe to a private channel?', 1, function() {
@@ -314,6 +318,8 @@ function defineTests() {
       
       start();
     });
+    
+    testTimeout('connected');    
   });
   
   asyncTest('Can subscribe to a presence channel?', function() {
@@ -325,6 +331,8 @@ function defineTests() {
       
       start();
     });
+    
+    testTimeout('connected');    
   });
   
   asyncTest('Can I receive events from Pusher?', function() {
@@ -346,6 +354,8 @@ function defineTests() {
       
       start();
     });
+    
+    testTimeout('connected');    
   });
   
   asyncTest('Can I trigger client events?', function() {
@@ -359,5 +369,7 @@ function defineTests() {
       
       start();
     });
+    
+    testTimeout('connected');    
   });     
 }
