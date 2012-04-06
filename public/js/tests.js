@@ -84,7 +84,7 @@ function defineTests() {
     
     var fullResults = testsInfo.getResults(result);
     
-    console.log(fullResults);
+    testsInfo._log(fullResults);
     
     $('#result-json').val( JSON.stringify(fullResults, undefined, 2) );
     
@@ -255,25 +255,20 @@ function defineTests() {
     var pusher = new Pusher(apiKey);
     var disconnectOnConnect = true;
     pusher.connection.bind('connected', function() {
-        //console.log('>>> connected');
         if(disconnectOnConnect) {
             disconnectOnConnect = false;
             setTimeout(function() {
-                //console.log('>>> disconnecting');
                 pusher.disconnect();
             }, 100);
         }
         else {
-            console.log('>>> test complete');
             equal(pusher.connection.state, 'connected');
             start();
         }
     });
 
     pusher.connection.bind('disconnected', function() {
-        //console.log('>>> disconnected');
         setTimeout(function() {
-            //console.log('>>> reconnecting');
             pusher.connect();
         }, 1000);
     });
@@ -316,6 +311,7 @@ function defineTests() {
       
       start();
     });
+
     channel.bind('pusher:subscription_error', function() {
       ok(false, 'error with authentication');
       
@@ -334,6 +330,7 @@ function defineTests() {
       
       start();
     });
+
     channel.bind('pusher:subscription_error', function() {
       ok(false, 'error with authentication');
       
