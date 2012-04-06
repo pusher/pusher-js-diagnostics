@@ -48,8 +48,8 @@ TestsInfo.prototype.getResults = function getResults(summary) {
 
 /** @private */
 TestsInfo.prototype._log = function _log(msg) {
-  if (console && console.log) {
-    console.log(msg);
+  if (window.console && window.console.log) {
+    window.console.log(msg);
   }
   
   this._logMessages.push(msg);
