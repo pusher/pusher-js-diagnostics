@@ -129,7 +129,7 @@ function defineTests() {
     Pusher.instances = [];
   });
   
-  function testTimeout(state) {
+  function testTimeout(pusher, state) {
     timeout = setTimeout(function() {
         equal(pusher.connection.state, state);
         start();
@@ -181,7 +181,7 @@ function defineTests() {
         start();
     });
 
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
   });
   
   asyncTest('How long did it take to connect using our standard connection strategy and how did the connection succeed?', 1, function() {
@@ -203,7 +203,7 @@ function defineTests() {
         start();
     });
 
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
   });
   
   asyncTest('Can the user connect over WSS://', 1, function() {
@@ -217,7 +217,7 @@ function defineTests() {
         start();
     });
 
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
   });
 
   asyncTest('Can the user connect over WS://', function() {
@@ -231,7 +231,7 @@ function defineTests() {
         start();
     });
 
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
     
   });
 
@@ -247,7 +247,7 @@ function defineTests() {
         start();
     });
 
-    testTimeout('disconnected');
+    testTimeout(pusher, 'disconnected');
   });
   
   asyncTest('Can I disconnect and then reconnect?', 1, function() {
@@ -278,7 +278,7 @@ function defineTests() {
         }, 1000);
     });
 
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
   });
   
   test('Connection method (WebSocket, MozWebSocket, Flash fallback)', function(){
@@ -292,9 +292,7 @@ function defineTests() {
     
     ok(transportType !== undefined);
     
-    $("#transport-type").text(transportText);
-    
-    testTimeout('connected');    
+    $("#transport-type").text(transportText);    
   });
       
   asyncTest('Can subscribe to a public channel?', 1, function() {
@@ -306,7 +304,7 @@ function defineTests() {
       start();
     });
     
-    testTimeout('connected');
+    testTimeout(pusher, 'connected');
   });
   
   asyncTest('Can subscribe to a private channel?', 1, function() {
@@ -318,8 +316,13 @@ function defineTests() {
       
       start();
     });
+    channel.bind('pusher:subscription_error', function() {
+      ok(false, 'error with authentication');
+      
+      start();
+    });
     
-    testTimeout('connected');    
+    testTimeout(pusher, 'connected');    
   });
   
   asyncTest('Can subscribe to a presence channel?', function() {
@@ -331,8 +334,13 @@ function defineTests() {
       
       start();
     });
+    channel.bind('pusher:subscription_error', function() {
+      ok(false, 'error with authentication');
+      
+      start();
+    });
     
-    testTimeout('connected');    
+    testTimeout(pusher, 'connected');    
   });
   
   asyncTest('Can I receive events from Pusher?', function() {
@@ -342,10 +350,7 @@ function defineTests() {
     channel.bind('pusher:subscription_succeeded', function() {
       
       $.ajax({
-          url: '/trigger/',
-          data: {
-            channel: randomChannel
-          }
+          url: '/trigger/' + randomChannel
         });
     });
     
@@ -355,7 +360,7 @@ function defineTests() {
       start();
     });
     
-    testTimeout('connected');    
+    testTimeout(pusher, 'connected');    
   });
   
   asyncTest('Can I trigger client events?', function() {
@@ -370,6 +375,6 @@ function defineTests() {
       start();
     });
     
-    testTimeout('connected');    
+    testTimeout(pusher, 'connected');    
   });     
 }
