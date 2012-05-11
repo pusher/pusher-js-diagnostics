@@ -29,7 +29,8 @@
         var script = document.getElementsByTagName('script')[0];
         var body = document.body;
         var logEl = document.createElement('div');
-        logEl.innerText = msg;
+        var text = document.createTextNode(msg);
+        logEl.appendChild(text);
         body.insertBefore(logEl, script);
       }
     
