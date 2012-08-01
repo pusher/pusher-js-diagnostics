@@ -48,6 +48,16 @@ TestsInfo.prototype.getResults = function getResults(summary) {
 
 /** @private */
 TestsInfo.prototype._log = function _log(msg) {
+  var d = new Date();
+  var ds;
+  if( d.toTimeString ) {
+    ds = d.toTimeString();
+  }
+  else {
+    ds = d.toString()
+  }
+  msg = ds + ' > ' + msg;
+  
   if (window.console && window.console.log) {
     window.console.log(msg);
   }
