@@ -236,7 +236,7 @@ function defineTests() {
         encrypted: false
     });
     pusher.connection.bind('connected', function() {
-        equal(pusher.connection.connectionSecure, false, 'Connected over WSS (non-secure)');
+        equal(pusher.connection.encrypted, false, 'Connected over WS (non-secure)');
 
         start();
     });
@@ -284,20 +284,6 @@ function defineTests() {
     });
 
     testTimeout(pusher, 'connected');
-  });
-  
-  test('Connection method (WebSocket, MozWebSocket, Flash fallback)', function(){
-    var transportType = Pusher.TransportType;
-    var transportText = transportType;
-    if(transportText === 'native') {
-        transportText += " (" +
-                         (window["WebSocket"]?"WebSocket":"MozWebSocket") +
-                         ")";
-    }
-    
-    ok(transportType !== undefined);
-    
-    $("#transport-type").text(transportText);    
   });
       
   asyncTest('Can subscribe to a public channel?', 1, function() {
