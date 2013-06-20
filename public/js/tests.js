@@ -54,7 +54,7 @@ TestsInfo.prototype._log = function _log(msg) {
     ds = d.toTimeString();
   }
   else {
-    ds = d.toString()
+    ds = JSON.stringify(d)
   }
   msg = ds + ' > ' + msg;
   
