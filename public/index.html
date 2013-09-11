@@ -1,9 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
-  
   <title>Pusher JavaScript Diagnostics</title>
 </head>
 <body>
@@ -12,7 +13,7 @@
       <h1>Pusher JavaScript Diagnostics</h1>
       <p class="lead">This page runs a number of Acceptance-style tests to in an attempt to diagnose problems when using the <a href="http://github.com/pusher/pusher-js">Pusher JavaScript library</a>.</p>
     </header>
-    
+
     <div id="results-section">
       <div class="page-header">
         <h1>Results <small class="test-state"></small></h1>
@@ -22,12 +23,12 @@
         <textarea id="result-json"></textarea>
       </div>
     </div>
-  
+
     <div id="test-summary">
       <div class="page-header">
           <h1>Browser <small class="test-state"></small></h1>
       </div>
-      
+
       <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -47,12 +48,12 @@
         </tr>
       </table>
     </div>
-  
+
     <div id="qunit-section">
       <div class="page-header">
           <h1>The Tests <small class="test-state"></small></h1>
       </div>
-      
+
       <h1 id="qunit-header">Pusher Diagnostics</h1>
       <h2 id="qunit-banner"></h2>
       <div id="qunit-testrunner-toolbar"></div>
@@ -60,15 +61,15 @@
       <ol id="qunit-tests"></ol>
       <div id="qunit-fixture">test markup, will be hidden</div>
     </div>
-  
+
   </div> <!--/container-->
-  
-  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-  <script src="http://code.jquery.com/qunit/git/qunit.js"></script>
-  <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
   <script src="http://swfobject.googlecode.com/svn/tags/swfobject_2_2/src/swfobject.js"></script>
-  <script src="js/BrowserDetect.js"></script>    
-  <script src="js/tests.js"></script>  
-    
+  <script src="js/BrowserDetect.js"></script>
+  <script src="js/tests.js"></script>
+
 </body>
 </html>​
