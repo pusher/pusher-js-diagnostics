@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Testing using the Pusher SSL Hosted Script</title>
-    
+
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" type="text/css" media="screen" />
   </head>
   <body>
@@ -9,23 +9,23 @@
     <h2>Instructions</h2>
     <p>
       By default this page connects using the <code>app_key</code> of <code>3c79040b291f29899811</code> and forces an <em>encrypted</em> WebSocket connection. It is possible to override these settings by supplying query string parameters.</p>
-      
+
     <ul>
       <li><code>app_key</code> - e.g. <code>?app_key=YOUR_APP_KEY</code></li>
       <li><code>encrypted</code> - e.g. <code>?encrypted=false</code></li>
     </ul>
-    
+
     <p>Both the <code>app_key</code> and <code>encrypted</code> values can be set by supplying both within the query string e.g. <code>?app_key=YOUR_APP_KEY&amp;encrypted=false</code>.</p>
-    
+
     <h2>Debug output:</h2>
-    
-    <script src="https://d3dy5gmtp8yhk7.cloudfront.net/2.0/pusher.min.js"></script>
+
+    <script src="https://d3dy5gmtp8yhk7.cloudfront.net/2.1/pusher.min.js"></script>
     <script>
       Pusher.log = function(msg) {
         if(window.console && window.console.log) {
           window.console.log(msg);
         }
-        
+
         var script = document.getElementsByTagName('script')[0];
         var body = document.body;
         var logEl = document.createElement('div');
@@ -33,17 +33,17 @@
         logEl.appendChild(text);
         body.insertBefore(logEl, script);
       }
-    
+
       var params = getParams();
       var appKey = params['app_key'] || '3c79040b291f29899811';
       var encrypted = ( params['encrypted'] === undefined? true : false );
       var pusher = new Pusher(appKey, {encrypted: encrypted});
-      
+
       function getParams() {
         var i,
             param,
     		    params = document.location.search.split("&");
-    		    
+
     		params[0] = params[0].substring(1, params[0].length);
     		var nameValues = {};
     		for(i = 0, l = params.length; i < l; i=i+1) {
