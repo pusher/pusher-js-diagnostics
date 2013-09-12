@@ -1,13 +1,12 @@
 {
-  "name": "pusher-diagnostics",
-  "version": "0.0.1",
-  "dependencies": {
-    "express": "2.5.8",
-    "node-pusher": "0.0.1",
-    "config": "0.4.11"
+  "name": "pusher-js-diagnostics",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
   },
-  "engines": {
-      "node": "0.6.13",
-      "npm":  "1.1.9"
-    }
+  "dependencies": {
+    "express": "3.4.0",
+    "pusher": "~0.1.3"
+  }
 }
