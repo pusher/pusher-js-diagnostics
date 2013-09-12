@@ -1,14 +1,12 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "pusher-js-diagnostics",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
     "express": "3.4.0",
-    "jade": "*",
-    "config": "~0.4.29",
     "pusher": "~0.1.3"
   }
 }
