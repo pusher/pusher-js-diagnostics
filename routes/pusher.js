@@ -33,5 +33,5 @@ exports.auth = function (req, res) {
     return res.end();
   }
 
-  return res.send(200, pusher.auth(socketId, channelName, channelData));
+  return res.send(200, pusher.authenticate(socketId, channelName, channelData));
 }
