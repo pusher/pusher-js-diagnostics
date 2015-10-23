@@ -1,23 +1,19 @@
-var CONF_FILE = require('../config/pusher'),
-    Pusher = require('pusher'),
+var Pusher = require('pusher'),
     pusher = new Pusher({
-      appId: CONF_FILE.app_id,
-      key: CONF_FILE.app_key,
-      secret: CONF_FILE.app_secret
+      appId: process.env.PUSHER_APP_ID,
+      key: process.env.PUSHER_APP_KEY,
+      secret: process.env.PUSHER_APP_SECRET
     });
 
 exports.trigger = function (req, res) {
-
   var channel = req.params.channel;
 
   pusher.trigger(channel, 'test_event', { "message": "hello world" });
 
   return res.send(200, 'Triggered!');
-
 }
 
 exports.auth = function (req, res) {
-
   var channelName = req.body.channel_name,
       socketId = req.body.socket_id,
       channnelData;
@@ -38,5 +34,4 @@ exports.auth = function (req, res) {
   }
 
   return res.send(200, pusher.auth(socketId, channelName, channelData));
-
 }
